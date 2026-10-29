@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Warkop AR</title>
+<link rel="stylesheet" href="css/style.css">
+</head><body>
+
+<div id="login"><div class="card">
+ <h1>☕ Warkop AR</h1>
+ <label style="margin-top:12px;display:block">Username</label><input id="lu" autocomplete="username">
+ <label>Password</label><input id="lp" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+ <button class="btn" onclick="doLogin()">Masuk</button>
+</div></div>
+
+<div class="wrap" id="app" style="display:none">
+<header><h1>☕ Warkop AR</h1>
+<div class="hr"><nav id="nav"></nav><div id="usr"></div></div></header>
+<div id="warn"></div>
+
+<section id="kasir"><div class="two">
+ <div><div class="row" style="gap:6px"><input id="q" placeholder="Cari produk…" oninput="rGrid()"><select id="kf" onchange="rGrid()" style="width:auto"></select></div><div id="grid" class="grid"></div></div>
+ <div class="card"><h2>Pesanan</h2><div id="cart"></div>
+  <div class="row"><b>Total</b><span class="tot" id="tot">Rp 0</span></div>
+  <label>Metode pembayaran</label><select id="met" onchange="rKem()"><option>Tunai</option><option>QRIS</option><option>Transfer</option></select>
+  <label>Uang diterima</label><input id="byr" type="number" inputmode="numeric" oninput="rKem()" placeholder="0">
+  <div class="row"><span>Kembalian</span><b id="kem">Rp 0</b></div>
+  <button class="btn" onclick="pay()">Simpan dan Tampilkan Struk</button>
+  <button class="btn sec" style="margin-top:6px" onclick="cart={};rCart()">Kosongkan</button></div>
+</div></section>
+
+<section id="produk">
+ <div class="two">
+  <div class="card"><h2>Data Produk dan Harga</h2><div class="tw"><table id="ptb"></table></div></div>
+  <div class="card"><h2 id="pf_t">Tambah Produk</h2>
+   <label>Nama produk</label><input id="pf_n">
+   <label>Kategori</label><select id="pf_k"></select>
+   <label>Harga jual (Rp)</label><input id="pf_h" type="number" inputmode="numeric">
+   <label>Satuan jual</label><input id="pf_s" placeholder="gelas / porsi / botol">
+   <label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="pf_a" checked style="width:auto;margin:0"> Aktif dijual</label>
+   <label style="display:block;margin-top:8px">Bahan terpakai per 1 satuan (opsional, maks. 3)</label><div id="pf_r"></div>
+   <button class="btn" onclick="saveP()">Simpan Produk</button>
+   <button class="btn sec" style="margin-top:6px" onclick="clrP()">Batal / Produk Baru</button></div>
+ </div>
+ <div class="three" style="margin-top:12px">
+  <div class="card"><h2>Kategori</h2><div id="ktl"></div><input id="kt_n" placeholder="Nama kategori baru" style="margin-top:8px"><button class="btn" onclick="addK()">Tambah Kategori</button></div>
+  <div class="card"><h2>Stok Minimum Barang</h2><div class="tw"><table id="mintb"></table></div></div>
+ </div>
+</section>
+
+<section id="stok">
+ <div class="card"><h2>Stok Saat Ini</h2><p id="ro" style="color:var(--mut);margin:0 0 8px"></p><div class="tw"><table id="stk"></table></div></div>
+ <div class="three" id="stokForms" style="margin-top:12px">
+  <div class="card"><h2>Barang Masuk</h2><label>Barang</label><select id="in_b"></select><label>Jumlah</label><input id="in_q" type="number" min="0"><label>Total harga beli (Rp, opsional)</label><input id="in_h" type="number"><label>Pemasok</label><input id="in_s"><button class="btn" onclick="doIn()">Catat Barang Masuk</button></div>
+  <div class="card"><h2>Barang Keluar (manual)</h2><label>Barang</label><select id="out_b"></select><label>Jumlah</label><input id="out_q" type="number" min="0"><label>Alasan</label><select id="out_k"><option>Rusak</option><option>Kedaluwarsa</option><option>Pemakaian lain</option></select><button class="btn" onclick="doOut()">Catat Barang Keluar</button></div>
+  <div class="card"><h2>Tambah Barang Baru</h2><label>Nama</label><input id="nb_n"><label>Satuan (gram, ml, bungkus…)</label><input id="nb_s"><label>Stok awal</label><input id="nb_q" type="number"><label>Batas minimum</label><input id="nb_m" type="number"><button class="btn" onclick="addB()">Tambah Barang</button></div>
+ </div>
+ <div class="card" style="margin-top:12px"><h2>Riwayat Stok</h2><div class="tw"><table id="mut"></table></div></div>
+</section>
+
+<section id="laporan">
+ <div class="row" style="flex-wrap:wrap;align-items:flex-end"><h2 style="margin:0">Laporan Penjualan</h2>
+  <div class="np" style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-end">
+   <div><label>Dari</label><input type="date" id="d1" onchange="rLap()" style="margin-bottom:0"></div>
+   <div><label>Sampai</label><input type="date" id="d2" onchange="rLap()" style="margin-bottom:0"></div>
+   <button class="btn sec sm" onclick="qp('hari')">Hari ini</button><button class="btn sec sm" onclick="qp('minggu')">7 hari</button><button class="btn sec sm" onclick="qp('bulan')">Bulan ini</button>
+   <button class="btn sm" onclick="printLap()">Cetak / Simpan PDF</button></div></div>
+ <p id="lper" style="color:var(--mut);margin:6px 0 0"></p>
+ <div class="stats" id="stats"></div>
+ <div class="two"><div class="card"><h2>Grafik Penjualan</h2><div class="chart" id="chart"></div></div>
+ <div class="card"><h2>Rekap Pembayaran</h2><div id="pm"></div></div></div>
+ <div class="card" style="margin-top:12px"><h2>Rekap per Produk</h2><div class="tw"><table id="top"></table></div></div>
+ <div class="card" style="margin-top:12px"><h2>Daftar Transaksi</h2><div class="tw"><table id="trx"></table></div></div>
+ <p class="np" style="text-align:center"><button class="btn sec sm" id="rst" onclick="reset()">Reset</button></p>
+</section>
+</div>
+
+<div id="modal"><div><div class="struk" id="sk"></div><div class="np" style="display:flex;gap:8px;margin-top:8px"><button class="btn" onclick="window.print()">Cetak / Simpan PDF</button><button class="btn sec" onclick="$('#modal').style.display='none'">Tutup</button></div></div></div>
+<div id="toast"></div>
+<script src="js/app.js"></script>
+</body></html>
