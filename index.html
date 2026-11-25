@@ -7,9 +7,22 @@
 
 <div id="login"><div class="card">
  <h1>☕ Warkop AR</h1>
- <label style="margin-top:12px;display:block">Username</label><input id="lu" autocomplete="username">
- <label>Password</label><input id="lp" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
- <button class="btn" onclick="doLogin()">Masuk</button>
+ <div id="lf">
+  <label style="margin-top:12px;display:block">Username</label><input id="lu" autocomplete="username">
+  <label>Password</label><input id="lp" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+  <button class="btn" onclick="doLogin()">Masuk</button>
+  <p style="text-align:center;margin:12px 0 0"><button class="lnk" onclick="showForgot(true)">Lupa password?</button></p>
+ </div>
+ <div id="ff" style="display:none">
+  <h2 style="margin-top:14px">Lupa Password</h2>
+  <div id="f1"><label>Username</label><input id="fu" autocomplete="username" onkeydown="if(event.key==='Enter')fNext()"><button class="btn" onclick="fNext()">Lanjut</button></div>
+  <div id="f2" style="display:none"><p id="fq" class="hint" style="margin:0 0 8px"></p>
+   <label>Jawaban</label><input id="fa" autocomplete="off">
+   <label>Password baru (minimal 6 karakter)</label><input id="fp" type="password" autocomplete="new-password">
+   <label>Ulangi password baru</label><input id="fp2" type="password" autocomplete="new-password" onkeydown="if(event.key==='Enter')fSave()">
+   <button class="btn" onclick="fSave()">Simpan Password Baru</button></div>
+  <p style="text-align:center;margin:12px 0 0"><button class="lnk" onclick="showForgot(false)">← Kembali ke login</button></p>
+ </div>
 </div></div>
 
 <div class="wrap" id="app" style="display:none">
@@ -66,11 +79,19 @@
    <button class="btn sm" onclick="printLap()">Cetak / Simpan PDF</button></div></div>
  <p id="lper" style="color:var(--mut);margin:6px 0 0"></p>
  <div class="stats" id="stats"></div>
- <div class="two"><div class="card"><h2>Grafik Penjualan</h2><div class="chart" id="chart"></div></div>
+ <div class="two"><div class="card"><div class="row" style="align-items:flex-start;flex-wrap:wrap"><h2 style="margin:0">Grafik Penjualan</h2><div id="chsum"></div></div><div id="chart"></div></div>
  <div class="card"><h2>Rekap Pembayaran</h2><div id="pm"></div></div></div>
- <div class="card" style="margin-top:12px"><h2>Rekap per Produk</h2><div class="tw"><table id="top"></table></div></div>
+ <div class="card" style="margin-top:12px"><div class="row" style="flex-wrap:wrap"><div><h2 style="margin:0">Rekap per Produk</h2><small id="rkn" style="color:var(--mut)"></small></div><button class="btn sm np" onclick="go('rekap')">Lihat Halaman Rekap Produk →</button></div></div>
  <div class="card" style="margin-top:12px"><h2>Daftar Transaksi</h2><div class="tw"><table id="trx"></table></div></div>
  <p class="np" style="text-align:center"><button class="btn sec sm" id="rst" onclick="reset()">Reset</button></p>
+</section>
+
+<section id="rekap">
+ <div class="row" style="flex-wrap:wrap;align-items:flex-end"><h2 style="margin:0">Rekap per Produk</h2>
+  <div class="np" style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn sec sm" onclick="go('laporan')">← Kembali ke Laporan</button><button class="btn sm" onclick="printRekap()">Cetak / Simpan PDF</button></div></div>
+ <p id="rper" style="color:var(--mut);margin:6px 0 0"></p>
+ <div class="stats" id="rstats"></div>
+ <div class="card"><div class="tw"><table id="rtab"></table></div></div>
 </section>
 </div>
 
